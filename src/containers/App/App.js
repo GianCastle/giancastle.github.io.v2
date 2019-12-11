@@ -1,20 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useFetch } from '../../lib/helpers/hooks/useFetch'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React, love FP
-        </a>
-      </header>
-    </div>
-  )
+  const response = useFetch('/')
+
+  console.log(response)
+
+  return <div className="App"></div>
 }
 
 export default App
