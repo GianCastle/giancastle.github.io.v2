@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useFetch } from '../../lib/helpers/hooks/useFetch'
+import React, { Suspense } from 'react'
+import useFetch from 'fetch-suspense'
 
+const Posts = () => {
+  const response = useFetch(`${process.env.REACT_APP_API_ROOT_URL}/posts`)
+  return `${response}`
+}
 function App() {
-  const response = useFetch('/')
-
-  console.log(response)
-
-  return <div className="App"></div>
+  return (
+    <Suspense fallback="loading...">
+      <Posts />
+    </Suspense>
+  )
 }
 
 export default App
