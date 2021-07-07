@@ -36,14 +36,25 @@ export const createHeaders = props => ({ ...props })
  * @example createAPIURL('test') // 'https://theroute.com/v1/test'
  * @returns {String} url the API URL
  */
-const createAPIURL = route => `${process.env.API_ROOT_URL}${route}`
+const createAPIURL = route => `${process.env.REACT_APP_API_ROOT_URL}${route}`
 
-const asyncGetJSON = Async.fromPromise(res => res.json())
+/**
+ *
+ * @param {HttpResponse} res the response of the URL
+ * @description Check if the response is succes or failure
+ * @returns {Object<JSON> | String} the response object or a reject string
+ */
+const isOk = res => (res.ok ? res.json() : Promise.reject(res.statusText))
+
+const asyncGetJSON = Async.fromPromise(isOk)
 
 /**
  * @func fetchAsync
  * @param {String} url the URL from wich we gonna make a request
+ * @param {Object} restHeaders request Headers
  * @returns {Async} the response
  */
-export const fetchAsync = url =>
-  Async.fromPromise(fetch)(createAPIURL(url)).chain(asyncGetJSON)
+export const fetchAsync = (url, restHeaders) =>
+  Async.fromPromise(fetch)(createAPIURL(url), {
+    headers: createHeaders(restHeaders)
+  }).chain(asyncGetJSON)

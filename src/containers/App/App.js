@@ -1,19 +1,15 @@
-import React from 'react'
+import React, { Suspense } from 'react'
+import useFetch from 'fetch-suspense'
 
+const Posts = () => {
+  const response = useFetch(`${process.env.REACT_APP_API_ROOT_URL}/posts`)
+  return `${response}`
+}
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React, love FP
-        </a>
-      </header>
-    </div>
+    <Suspense fallback="loading...">
+      <Posts />
+    </Suspense>
   )
 }
 
